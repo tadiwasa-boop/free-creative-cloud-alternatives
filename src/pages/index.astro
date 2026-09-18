@@ -1,0 +1,38 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { tools } from "../data/tools";
+const categories = [...new Set(tools.map(t => t.category))];
+---
+<Layout>
+  <header>
+    <div class="wrap">
+      <p>THE INDEPENDENT CREATOR TOOL DIRECTORY</p>
+      <h1>50 Best Free Alternatives to Adobe Creative Cloud</h1>
+      <p>Find free and freemium tools for photo editing, video, illustration, animation, audio, publishing and more. No Creative Cloud subscription required.</p>
+    </div>
+  </header>
+  <main class="wrap">
+    <div class="notice">
+      <strong>Affiliate disclosure:</strong> Some links on this site may eventually be affiliate links. We only add affiliate links after confirming the relevant program and terms. Until then, links go to official product websites.
+    </div>
+    <section>
+      <h2>Browse the directory</h2>
+      <p>{tools.length} tools and workflows across {categories.length} categories.</p>
+      <div class="grid">
+        {tools.map((tool) => (
+          <article class="card">
+            <h2>{tool.name}</h2>
+            <div class="meta">Alternative to {tool.adobe} · {tool.category}</div>
+            <span class="pill">{tool.pricing}</span>
+            <span class="pill">{tool.platforms}</span>
+            <p>{tool.review}</p>
+            <a class="button" href={tool.url} target="_blank" rel="noopener noreferrer">Visit official site →</a>
+          </article>
+        ))}
+      </div>
+    </section>
+  </main>
+  <footer class="wrap">
+    <p>Prices, features, licensing and availability can change. Verify current terms on each official product site before making purchasing or publishing decisions.</p>
+  </footer>
+</Layout>
