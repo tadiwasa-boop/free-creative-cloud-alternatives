@@ -2,6 +2,11 @@
 import Layout from "../layouts/Layout.astro";
 import { tools } from "../data/tools";
 const categories = [...new Set(tools.map(t => t.category))];
+
+function getLogo(url) {
+  const domain = new URL(url).hostname;
+  return `https://www.google.com/s2/favicons?sz=128&domain=${domain}`;
+}
 ---
 <Layout>
   <header>
@@ -21,6 +26,7 @@ const categories = [...new Set(tools.map(t => t.category))];
       <div class="grid">
         {tools.map((tool) => (
           <article class="card">
+            <img class="logo" src={getLogo(tool.url)} alt={`${tool.name} logo`} loading="lazy" />
             <h2>{tool.name}</h2>
             <div class="meta">Alternative to {tool.adobe} · {tool.category}</div>
             <span class="pill">{tool.pricing}</span>
