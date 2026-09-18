@@ -35,6 +35,16 @@ const { title = "50 Best Free Alternatives to Adobe Creative Cloud", description
       background: #f3f3f3;
       padding: 4px;
     }
+.filters { display:flex; gap:12px; flex-wrap:wrap; margin: 16px 0 8px; }
+#search { flex:1; min-width:220px; padding:10px 14px; border-radius:10px; border:1px solid #dbe1ea; font-size:1rem; }
+#category { padding:10px 14px; border-radius:10px; border:1px solid #dbe1ea; font-size:1rem; background:white; }
+#no-results { text-align:center; color:#64748b; padding:40px 0; }
+@media (max-width: 480px) {
+  .wrap { padding: 0 14px; }
+  .filters { flex-direction: column; }
+  #search, #category { width: 100%; }
+  header { padding: 48px 0 32px; }
+}
   </style>
 </head>
 <body><slot /></body>
