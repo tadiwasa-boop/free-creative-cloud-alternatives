@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://free-creative-cloud-alternatives.pages.dev/sitemap.xml
