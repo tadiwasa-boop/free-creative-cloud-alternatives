@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { tools } from "../data/tools";
-const categories = [...new Set(tools.map(t => t.category))];
+const categories = [...new Set(tools.map(t => t.category))].sort();
 
 function getLogo(url) {
   const domain = new URL(url).hostname;
@@ -22,10 +22,21 @@ function getLogo(url) {
     </div>
     <section>
       <h2>Browse the directory</h2>
-      <p>{tools.length} tools and workflows across {categories.length} categories.</p>
-      <div class="grid">
+      <p id="count">{tools.length} tools and workflows across {categories.length} categories.</p>
+
+      <div class="filters">
+        <input type="text" id="search" placeholder="Search tools..." />
+        <select id="category">
+          <option value="">All categories</option>
+          {categories.map((cat) => (
+            <option value={cat}>{cat}</option>
+          ))}
+        </select>
+      </div>
+
+      <div class="grid" id="grid">
         {tools.map((tool) => (
-          <article class="card">
+          <article class="card" data-name={tool.name.toLowerCase()} data-category={tool.category} data-review={tool.review.toLowerCase()}>
             <img class="logo" src={getLogo(tool.url)} alt={`${tool.name} logo`} loading="lazy" />
             <h2>{tool.name}</h2>
             <div class="meta">Alternative to {tool.adobe} · {tool.category}</div>
@@ -36,9 +47,44 @@ function getLogo(url) {
           </article>
         ))}
       </div>
+      <p id="no-results" style="display:none;">No tools match your search.</p>
     </section>
   </main>
   <footer class="wrap">
     <p>Prices, features, licensing and availability can change. Verify current terms on each official product site before making purchasing or publishing decisions.</p>
   </footer>
+
+  <script>
+    const search = document.getElementById("search");
+    const category = document.getElementById("category");
+    const cards = document.querySelectorAll(".card");
+    const noResults = document.getElementById("no-results");
+
+    function filterCards() {
+      const term = search.value.toLowerCase().trim();
+      const cat = category.value;
+      let visibleCount = 0;
+
+      cards.forEach((card) => {
+        const name = card.dataset.name;
+        const review = card.dataset.review;
+        const cardCat = card.dataset.category;
+
+        const matchesSearch = !term || name.includes(term) || review.includes(term);
+        const matchesCategory = !cat || cardCat === cat;
+
+        if (matchesSearch && matchesCategory) {
+          card.style.display = "";
+          visibleCount++;
+        } else {
+          card.style.display = "none";
+        }
+      });
+
+      noResults.style.display = visibleCount === 0 ? "block" : "none";
+    }
+
+    search.addEventListener("input", filterCards);
+    category.addEventListener("change", filterCards);
+  </script>
 </Layout>
